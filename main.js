@@ -1,6 +1,24 @@
 let app = new Vue({
     el: '#app',
     data: {
+        attractionIcon: L.icon({
+            iconUrl: 'blueMarker.png',
+
+            iconSize:     [25, 41], // size of the icon
+            iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
+        }),
+        foodIcon: L.icon({
+            iconUrl: 'greenMarker.png',
+
+            iconSize:     [25, 41], // size of the icon
+            iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
+        }),
+        amenityIcon: L.icon({
+            iconUrl: 'greenMarker.png',
+
+            iconSize:     [25, 41], // size of the icon
+            iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
+        }),
         enterAddress: true,
         address: "",
         filters: [
@@ -182,21 +200,35 @@ let app = new Vue({
             this.filters[2].editing = true;
         },
         addMarkers: function() {
-            if (this.map === null) console.log(this.map);
+            console.log("called");
             let vthis = this;
+
+            this.map.eachLayer(function (layer) {
+                vthis.map.removeLayer(layer);
+            });
+
+            let bounds = [[0, 0], [900, 1280]];
+            let image = L.imageOverlay('map.JPG', bounds).addTo(this.map);
+            this.map.fitBounds(bounds);
+
+            let circle = L.circle([540, 770], {
+                color: 'blue',
+                fillColor: '#4286f4',
+                fillOpacity: 0.5,
+                radius: 15
+            }).addTo(this.map);
+
             this.mapMarkers.forEach(function(marker) {
 
                 if (vthis.filters[0].name === marker.type && vthis.filters[0].on) {
                     if (vthis.filters[0].settings[marker.category].on) {
-                        let mark = L.marker([marker.posY, marker.posX]).addTo(vthis.map);
-                        mark.bindPopup(marker.posX + ", " + marker.posY + "<br>" + marker.detail);
+                        let mark = L.marker([marker.posY, marker.posX], {icon: vthis.attractionIcon }).addTo(vthis.map).bindPopup(marker.detail);
                     }
                 }
 
                 else if (vthis.filters[2].name === marker.type && vthis.filters[2].on) {
-                    console.log(marker);
                     if (vthis.filters[2].settings[marker.category].on && vthis.filters[2].settings[marker.subCat].on) {
-                        let mark = L.marker([marker.posY, marker.posX]).addTo(vthis.map).bindPopup(marker.detail);
+                        let mark = L.marker([marker.posY, marker.posX], {icon: vthis.foodIcon }).addTo(vthis.map).bindPopup(marker.detail);
                     }
                 }
             })
@@ -205,21 +237,10 @@ let app = new Vue({
             let vthis = this;
             Vue.nextTick(function () {
                 if (document.getElementById('mapID') !== null) {
-                    let map = L.map('mapID', {
+                    vthis.map = L.map('mapID', {
                         crs: L.CRS.Simple
                     });
-                    let bounds = [[0, 0], [900, 1280]];
-                    let image = L.imageOverlay('map.JPG', bounds).addTo(map);
-                    map.fitBounds(bounds);
 
-                    let circle = L.circle([540, 770], {
-                        color: 'blue',
-                        fillColor: '#4286f4',
-                        fillOpacity: 0.5,
-                        radius: 15
-                    }).addTo(map);
-
-                    vthis.map = map;
                     vthis.addMarkers();
                 }
             })
