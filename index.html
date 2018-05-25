@@ -10,62 +10,127 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="app">
+    <!-- Search Bar Page (Landing Page) -->
     <div id="searchDiv" v-if="enterAddress">
         <div id="searchDivInner">
             <main role="main" class="inner cover">
                 <h1 class="cover-heading">Title</h1>
-                <input class="form-control form-control-lg" type="text" placeholder="Enter an address">
-                <p class="lead" id="searchDivUseCurrentLoc"><a href="#" v-on:click="stop">Or use current location</a></p>
+                <input class="form-control form-control-lg" type="text" placeholder="Enter an address" v-model="address" v-on:submit.prevent="useAddresss">
+                <p class="lead" id="searchDivUseCurrentLoc"><a href="#" v-on:click.stop="useCurrentLoc">Or use current location</a></p>
             </main>
         </div>
     </div>
-    <div id="mapDiv" class="container-fluid text-center" v-if="!enterAddress">
-        <div class="row content">
-            <div class="col-sm-2 sidenav">
-                <p><a href="#">Link</a></p>
-            </div>
-            <div class="col-sm-8 text-left">
-                <h1>Welcome</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                <hr>
-                <h3>Test</h3>
-                <p>Lorem ipsum...</p>
-            </div>
-            <div class="col-sm-2 sidenav">
-                <div class="well">
-                    <p>ADS</p>
+
+    <!-- Map Page (Main Page) -->
+    <div id="mapDiv" v-if="!enterAddress">
+        <header>
+            <nav class="navbar navbar-expand-md  fixed-top ">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                        <input class="form-control form-control-lg" type="text" placeholder="Enter an address" v-model="address" v-on:submit.prevent="useAddresss">
                 </div>
-                <div class="well">
-                    <p>ADS</p>
+                <div class="col-md-4"></div>
+            </nav>
+        </header>
+
+        <div id="mapDivRow" class="container-fluid text-center">
+            <div class="row content">
+
+                <div id="mapDivFilter" class="col-md-2">
+                    <h1>Title</h1>
+                    <hr>
+                    <br>
+
+                    <h5>Filters</h5>
+
+                    <button type="button" class="btn btn-primary btn-lg btn-block" v-if="filters[0].on" v-on:click="filters[0].on = false">Attractions</button>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" v-if="!filters[0].on" v-on:click="filters[0].on = true">Attractions</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" v-if="filters[1].on" v-on:click="filters[1].on = false">Food/Drink</button>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" v-if="!filters[1].on" v-on:click="filters[1].on = true">Food/Drink</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" v-if="filters[2].on" v-on:click="filters[2].on = false">Amenities</button>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" v-if="!filters[2].on" v-on:click="filters[2].on = true">Amenities</button>
+
+                    <hr>
+                    <br>
+
+                    <h5>Settings</h5>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" v-if="filters[0].editing" v-on:click.stop="attractionsEditing">Attractions</a>
+                            <a class="nav-link" href="#" v-if="!filters[0].editing" v-on:click.stop="attractionsEditing">Attractions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" v-if="filters[1].editing" v-on:click.stop="foodDrinkEditing">Amenities</a>
+                            <a class="nav-link" href="#" v-if="!filters[1].editing" v-on:click.stop="foodDrinkEditing">Amenities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" v-if="filters[2].editing" v-on:click.stop="amenitiesEditing">Food/Drink</a>
+                            <a class="nav-link" href="#" v-if="!filters[2].editing" v-on:click.stop="amenitiesEditing">Food/Drink</a>
+                        </li>
+                    </ul>
+                    <div class="card-body settings" v-if="filters[0].editing">
+                        <div v-for="setting in filters[0].settings">
+                            <input type="checkbox" :id="setting.id" v-model="setting.on">
+                            <label :for="setting.id">{{ setting.name }}</label>
+                        </div>
+                    </div>
+                    <div class="card-body settings" v-if="filters[1].editing">
+                        <div v-for="setting in filters[1].settings">
+                            <input type="checkbox" :id="setting.id" v-model="setting.on">
+                            <label :for="setting.id">{{ setting.name }}</label>
+                        </div>
+                    </div>
+                    <div class="card-body settings" v-if="filters[2].editing">
+                        <div v-for="setting in filters[2].settings">
+                            <input type="checkbox" :id="setting.id" v-model="setting.on">
+                            <label :for="setting.id">{{ setting.name }}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="mapDivMap" class="col-md-8 text-left">
+                    <div id="mapID"></div>
+                </div>
+
+                <div id="mapDivDetails" class="col-md-2">
+                    <div class="well">
+                        <p>Detail</p>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <footer class="container-fluid text-center">
+        <p>Footer Text</p>
+        </footer>
+
     </div>
+
 </div>
 
-<!--<footer class="container-fluid text-center">-->
-    <!--<p>Footer Text</p>-->
-<!--</footer>-->
-
-
-
-
-
 <!-- Vue.js -->
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <!-- Bootstrap Scripts -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+<!-- Leaflet.js -->
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+
 <!-- Custom JS -->
 <script src="main.js" type="application/javascript"></script>
-
 </body>
 </html>

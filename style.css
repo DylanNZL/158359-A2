@@ -1,3 +1,34 @@
+/* Attributes */
+
+header {
+    /*height: 5vh;*/
+}
+
+footer {
+    background-color: #555;
+    color: white;
+    height: 5vh;
+}
+
+/* Classes */
+
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+
+.sidenav {
+    background-color: #f1f1f1;
+    height: 100%;
+}
+
+.settings {
+    text-align:left;
+}
+
+/* ID */
+
 #searchDiv {
     text-align: center;
 }
@@ -12,3 +43,35 @@
 #searchDivUseCurrentLoc {
     text-align: right;
 }
+
+#mapDiv {
+    height:100%;
+}
+
+#mapDivRow {
+    /*padding-top:10px;*/
+}
+
+#mapDivMap {
+    /*background: url("map.JPG") no-repeat;*/
+    height:95vh;
+}
+
+#mapDivFilter {
+    padding-top: 64px;
+    height:95vh;
+}
+
+#filterForm {
+    text-align: left;
+}
+
+#mapID {
+    width: 1280px;
+    height: 900px;
+}
+
+#mapDivDetails {
+    float:right;
+}
+
