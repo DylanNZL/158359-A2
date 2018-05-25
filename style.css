@@ -1,0 +1,14 @@
+#searchDiv {
+    text-align: center;
+}
+
+#searchDivInner {
+    width: 400px;
+    height: 100vh;
+    display: inline-block;
+    padding-top: 40vh;
+}
+
+#searchDivUseCurrentLoc {
+    text-align: right;
+}
