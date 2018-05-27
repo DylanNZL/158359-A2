@@ -31,6 +31,30 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Want something added?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="tipTextArea">Details</label>
+                        <textarea class="form-control" id="tipTextArea" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Map Page (Main Page) -->
     <div id="mapDiv" v-if="!enterAddress">
         <header>
@@ -104,7 +128,7 @@
                 </div>
 
                 <div id="mapDivDetails" class="col-md-2">
-                    <div id="detailPad"></div>
+
                     <div class="card box-shadow">
                         <img class="card-img-top" src='data:image/svg+xml;charset=UTF-8,<svg%20width%3D"295"%20height%3D"180"%20xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg"%20viewBox%3D"0%200%20362%20180"%20preserveAspectRatio%3D"none"><defs><style%20type%3D"text%2Fcss">%23holder_1639f1aa190%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A18pt%20%7D%20<%2Fstyle><%2Fdefs><g%20id%3D"holder_1639f1aa190"><rect%20width%3D"362"%20height%3D"180"%20fill%3D"%23777"><%2Frect><g><text%20x%3D"134.9609375"%20y%3D"98.1">295x180<%2Ftext><%2Fg><%2Fg><%2Fsvg>' alt="Selected place image">
                         <div class="card-body">
@@ -124,6 +148,10 @@
                         <div class="card-footer">
                             <p class="card-text"><small class="text-muted">User rating: &#9733; &#9733; &#9733; &#9734; &#9734;</small></p>
                         </div>
+                    </div>
+
+                    <div class="alert alert-light" role="alert">
+                        Have something to add? <a href="#" data-toggle="modal" data-target="#exampleModal" class="alert-link">Click here.</a>
                     </div>
                 </div>
             </div>
@@ -152,5 +180,6 @@
 
 <!-- Custom JS -->
 <script src="main.js" type="application/javascript"></script>
+
 </body>
 </html>

@@ -63,6 +63,7 @@ footer {
 }
 
 #mapDivDetails {
+    padding-top: 5px;
     padding-right: 5px;
     padding-left: 20px;
 }
@@ -76,11 +77,14 @@ footer {
 }
 
 #mapID {
-    width: 1280px;
-    height: 900px;
+    /* Win 1920x1080 */
+    /*width: 1280px;*/
+    /*height: 900px;*/
+    /* Mac */
+    width: 66.7vw;
+    height: 95vh;
 }
 
 #mapDivDetails {
     float:right;
 }
-
