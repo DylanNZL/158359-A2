@@ -10,6 +10,10 @@ footer {
     height: 5vh;
 }
 
+footer p {
+    padding-top: 5px;
+}
+
 /* Classes */
 
 .navbar {
