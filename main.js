@@ -53,10 +53,16 @@ let app = new Vue({
                         on: true
                     },
                     "themeParks": {
-                        name: "Theme Parks & Adventurous Activities",
+                        name: "Theme Parks",
                         id: "themeParks",
                         on: true
                     },
+                    "adventurousActivities": {
+                        name: "Adventurous Activities",
+                        id: "adventurousActivities",
+                        on: true
+                    },
+
                 }
             },
             {

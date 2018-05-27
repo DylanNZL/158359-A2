@@ -94,11 +94,11 @@
                             <a class="nav-link" href="#" v-if="!filters[0].editing" v-on:click.stop="attractionsEditing">Attractions</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" v-if="filters[1].editing" v-on:click.stop="foodDrinkEditing">Amenities</a>
+                            <a class="nav-link active" href="#" v-if="filters[1].editing" v-on:click.stop="foodDrinkEditing">Amenities</a>
                             <a class="nav-link" href="#" v-if="!filters[1].editing" v-on:click.stop="foodDrinkEditing">Amenities</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" v-if="filters[2].editing" v-on:click.stop="amenitiesEditing">Food/Drink</a>
+                            <a class="nav-link active" href="#" v-if="filters[2].editing" v-on:click.stop="amenitiesEditing">Food/Drink</a>
                             <a class="nav-link" href="#" v-if="!filters[2].editing" v-on:click.stop="amenitiesEditing">Food/Drink</a>
                         </li>
                     </ul>
@@ -134,10 +134,10 @@
                         <div class="card-body">
                             <h5 class="card-title">Name of selected item</h5>
                             <p class="card-text">Some details about the selected item. <br></p>
-
+                            <hr>
                             <h6 class="card-subtitle mb-2 text-muted">Opening Hours</h6>
                             <p class="card-text">Mon - Fri: 9am  - 5pm <br> Sat: 10am - 3pm</p>
-
+                            <hr>
                             <h6 class="card-subtitle mb-2 text-muted">Directions</h6>
                                 <p class="card-text">
                                     <a href="#" v-on:click.prevent="">Open in Google Maps</a>
