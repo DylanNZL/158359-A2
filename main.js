@@ -93,7 +93,7 @@ let app = new Vue({
                         on: true
                     },
                     "fastFood": {
-                        name: "Fast Foods",
+                        name: "Fast Food",
                         id: "fastFood",
                         on: true
                     },
@@ -176,7 +176,7 @@ let app = new Vue({
             },
             {
                 type: "Food",
-                category: "fastFood",
+                category: "restaurant",
                 subCat: "oneHundred",
                 posX: 550,
                 posY: 850,
@@ -248,26 +248,28 @@ let app = new Vue({
                 fillOpacity: 0.5,
                 radius: 10
             }).addTo(this.map);
+            Vue.nextTick(function () {
+                vthis.mapMarkers.forEach(function(marker) {
 
-            this.mapMarkers.forEach(function(marker) {
+                    if (vthis.filters[0].name === marker.type && vthis.filters[0].on) {
+                        if (vthis.filters[0].settings[marker.category].on) {
+                            let mark = L.marker([marker.posY, marker.posX], {icon: vthis.attractionIcon }).addTo(vthis.map).bindPopup(marker.detail);
+                        }
+                    }
+                    else if (vthis.filters[1].name === marker.type && vthis.filters[1].on) {
+                        if (vthis.filters[1].settings[marker.category].on) {
+                            let mark = L.marker([marker.posY, marker.posX], {icon: vthis.amenityIcon }).addTo(vthis.map).bindPopup(marker.detail);
+                        }
+                    }
 
-                if (vthis.filters[0].name === marker.type && vthis.filters[0].on) {
-                    if (vthis.filters[0].settings[marker.category].on) {
-                        let mark = L.marker([marker.posY, marker.posX], {icon: vthis.attractionIcon }).addTo(vthis.map).bindPopup(marker.detail);
+                    else if (vthis.filters[2].name === marker.type && vthis.filters[2].on) {
+                        if (vthis.filters[2].settings[marker.category].on && vthis.filters[2].settings[marker.subCat].on) {
+                            let mark = L.marker([marker.posY, marker.posX], {icon: vthis.foodIcon }).addTo(vthis.map).bindPopup(marker.detail);
+                        }
                     }
-                }
-                else if (vthis.filters[1].name === marker.type && vthis.filters[1].on) {
-                    if (vthis.filters[1].settings[marker.category].on) {
-                        let mark = L.marker([marker.posY, marker.posX], {icon: vthis.amenityIcon }).addTo(vthis.map).bindPopup(marker.detail);
-                    }
-                }
-
-                else if (vthis.filters[2].name === marker.type && vthis.filters[2].on) {
-                    if (vthis.filters[2].settings[marker.category].on && vthis.filters[2].settings[marker.subCat].on) {
-                        let mark = L.marker([marker.posY, marker.posX], {icon: vthis.foodIcon }).addTo(vthis.map).bindPopup(marker.detail);
-                    }
-                }
+                })
             })
+
         },
         createMap: function() {
             let vthis = this;
