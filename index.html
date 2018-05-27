@@ -23,7 +23,9 @@
         <div id="searchDivInner">
             <main role="main" class="inner cover">
                 <h1 class="cover-heading">Title</h1>
-                <input class="form-control form-control-lg" type="text" placeholder="Enter an address" v-model="address" v-on:submit.prevent="useAddresss">
+                <form v-on:submit.prevent="useAdress">
+                    <input class="form-control form-control-lg" type="text" placeholder="Enter an address" v-model="address" >
+                </form>
                 <p class="lead" id="searchDivUseCurrentLoc"><a href="#" v-on:click.stop="useCurrentLoc">Or use current location</a></p>
             </main>
         </div>
@@ -102,8 +104,26 @@
                 </div>
 
                 <div id="mapDivDetails" class="col-md-2">
-                    <div class="well">
-                        <p>Detail</p>
+                    <div id="detailPad"></div>
+                    <div class="card box-shadow">
+                        <img class="card-img-top" src='data:image/svg+xml;charset=UTF-8,<svg%20width%3D"295"%20height%3D"180"%20xmlns%3D"http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg"%20viewBox%3D"0%200%20362%20180"%20preserveAspectRatio%3D"none"><defs><style%20type%3D"text%2Fcss">%23holder_1639f1aa190%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A18pt%20%7D%20<%2Fstyle><%2Fdefs><g%20id%3D"holder_1639f1aa190"><rect%20width%3D"362"%20height%3D"180"%20fill%3D"%23777"><%2Frect><g><text%20x%3D"134.9609375"%20y%3D"98.1">295x180<%2Ftext><%2Fg><%2Fg><%2Fsvg>' alt="Selected place image">
+                        <div class="card-body">
+                            <h5 class="card-title">Name of selected item</h5>
+                            <p class="card-text">Some details about the selected item. <br></p>
+
+                            <h6 class="card-subtitle mb-2 text-muted">Opening Hours</h6>
+                            <p class="card-text">Mon - Fri: 9am  - 5pm <br> Sat: 10am - 3pm</p>
+
+                            <h6 class="card-subtitle mb-2 text-muted">Directions</h6>
+                                <p class="card-text">
+                                    <a href="#" v-on:click.prevent="">Open in Google Maps</a>
+                                    <br>
+                                    <a href="#" v-on:click.prevent="">Open in Apple Maps</a>
+                                </p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="card-text"><small class="text-muted">User rating: &#9733; &#9733; &#9733; &#9734; &#9734;</small></p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -62,6 +62,15 @@ footer {
     height:95vh;
 }
 
+#mapDivDetails {
+    padding-right: 5px;
+    padding-left: 20px;
+}
+
+#detailPad {
+    height:.5vh;
+}
+
 #filterForm {
     text-align: left;
 }

@@ -5,19 +5,19 @@ let app = new Vue({
             iconUrl: 'blueMarker.png',
 
             iconSize:     [25, 41], // size of the icon
-            iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
+            iconAnchor:   [12, 20], // point of the icon which will correspond to marker's location
         }),
         foodIcon: L.icon({
             iconUrl: 'greenMarker.png',
 
             iconSize:     [25, 41], // size of the icon
-            iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
+            iconAnchor:   [12, 20], // point of the icon which will correspond to marker's location
         }),
         amenityIcon: L.icon({
-            iconUrl: 'greenMarker.png',
+            iconUrl: 'orangeMarker.png',
 
             iconSize:     [25, 41], // size of the icon
-            iconAnchor:   [25, 41], // point of the icon which will correspond to marker's location
+            iconAnchor:   [12, 20], // point of the icon which will correspond to marker's location
         }),
         enterAddress: true,
         address: "",
@@ -148,7 +148,7 @@ let app = new Vue({
                 type: "Attractions",
                 category: "scenery",
                 posX: 650,
-                posY: 565,
+                posY: 525,
                 detail: "Small field"
             },
         //    food/drink
@@ -176,12 +176,37 @@ let app = new Vue({
                 posY: 850,
                 detail: "Fancy Restaurant"
             },
+            // Amenities
+            {
+                type: "Amenities",
+                category: "restroom",
+                posX: 750,
+                posY: 500,
+                detail: "Restroom"
+            },
+            {
+                type: "Amenities",
+                category: "restroom",
+                posX: 700,
+                posY: 635,
+                detail: "Restroom"
+            },
+            {
+                type: "Amenities",
+                category: "restroom",
+                posX: 865,
+                posY: 510,
+                detail: "Restroom"
+            }
         ]
     },
     methods: {
         useCurrentLoc: function() {
-            this.enterAddress = false;
             this.address = "1 Queen Street, Auckland, New Zealand";
+            this.useAdress();
+        },
+        useAdress: function() {
+            this.enterAddress = false;
             this.createMap();
         },
         attractionsEditing: function () {
@@ -215,7 +240,7 @@ let app = new Vue({
                 color: 'blue',
                 fillColor: '#4286f4',
                 fillOpacity: 0.5,
-                radius: 15
+                radius: 10
             }).addTo(this.map);
 
             this.mapMarkers.forEach(function(marker) {
@@ -223,6 +248,11 @@ let app = new Vue({
                 if (vthis.filters[0].name === marker.type && vthis.filters[0].on) {
                     if (vthis.filters[0].settings[marker.category].on) {
                         let mark = L.marker([marker.posY, marker.posX], {icon: vthis.attractionIcon }).addTo(vthis.map).bindPopup(marker.detail);
+                    }
+                }
+                else if (vthis.filters[1].name === marker.type && vthis.filters[1].on) {
+                    if (vthis.filters[1].settings[marker.category].on) {
+                        let mark = L.marker([marker.posY, marker.posX], {icon: vthis.amenityIcon }).addTo(vthis.map).bindPopup(marker.detail);
                     }
                 }
 
